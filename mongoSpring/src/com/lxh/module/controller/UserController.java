@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -53,6 +54,18 @@ public class UserController{
 			modelMap.put("moduleList", moduleList);
 			return "/module/main";
 		}
+	}
+	
+	/**
+	 * µÇ³ö
+	 * */
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request,HttpServletResponse response){
+		request.getSession().removeAttribute(Constants.Session.current_user);
+		response.setHeader("Pragma","No-cache");//Çå³ýÒ³Ãæ»º´æ
+		response.setHeader("Cache-Control","no-cache"); 
+		response.setDateHeader("Expires", 0); 
+		return "/signin";
 	}
 	
 	/**

@@ -63,9 +63,11 @@
      		createSimpleWindow("edit","新增用户","${ctx}/user/toEdit.action?userId="+id, 600, 500);
      	}
      	function del(){
+     		//bootbox.alert("确定要删除吗？");
+     		bootbox.setLocale("zh_CN");  
      		bootbox.confirm({ 
      		    size: 'small',
-     		    message: "Your message here…", 
+     		    message: "确定要删除吗？", 
      		    callback: function(result){
      		    	
      		    }

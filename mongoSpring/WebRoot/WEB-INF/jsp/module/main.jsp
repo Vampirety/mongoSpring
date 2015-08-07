@@ -124,7 +124,7 @@
                     </a>
                 </li>
                 <li class="settings hidden-phone">
-                    <a href="signin.html" role="button">
+                    <a href="##" onclick="loginout();" role="button">
                         <i class="icon-share-alt"></i>
                     </a>
                 </li>
@@ -264,6 +264,18 @@
 			$("#myFrame").css("height",(height-48)+"px");
             // jQuery Knobs
         });
+        function loginout(){
+        	bootbox.setLocale("zh_CN");  
+     		bootbox.confirm({ 
+     		    size: 'small',
+     		    message: "确定要注销吗？", 
+     		    callback: function(result){
+     		    	if(result){
+     		    		location.href="${ctx }/user/logout.action";
+     		    	}
+     		    }
+     		});
+        }
     </script>
 </body>
 </html>
