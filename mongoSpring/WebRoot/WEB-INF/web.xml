@@ -65,6 +65,14 @@
   		<param-value>/WEB-INF/classes/xss_security_config.xml</param-value>
   	</init-param>
   </filter>
+  <filter>
+  	<filter-name>sessionFilter</filter-name>
+  	<filter-class>com.lxh.module.filter.SessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>sessionFilter</filter-name>
+  	<url-pattern>*.action</url-pattern>
+  </filter-mapping>
   <filter-mapping>
   	<filter-name>XssSqlFilter</filter-name>
   	<url-pattern>/*</url-pattern>
