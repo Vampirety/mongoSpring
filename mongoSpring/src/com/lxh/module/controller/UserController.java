@@ -1,5 +1,7 @@
 package com.lxh.module.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,26 +74,28 @@ public class UserController{
 	 * 保存用户
 	 * */
 	@RequestMapping("/saveUser")
-	public String saveUser(@ModelAttribute("user")User user){
+	public String saveUser(@ModelAttribute("user")User user,String type, ModelMap modelMap){
 		if(user!=null){
-			user.setAccount("123465@qq.com");
-			user.setEmail("123465@qq.com");
-			user.setFirstName("123465");
-			user.setLastName("123465");
-			user.setNickName("小123465");
-			user.setPassword("e10adc3949ba59abbe56e057f20f883e");
-			user.setPhone("18066123465");
+			if(!"edit".equals(type)){
+				user.setId(null);
+				user.setDelFlag("0");
+				user.setPassword("e10adc3949ba59abbe56e057f20f883e");
+				user.setAccount(user.getEmail());
+			}
 			this.userService.saveUser(user);
+			modelMap.put("windowId", "edit");
 		}
-		return "/module/main";
+		return "/common/success";
 	}
 	
 	/**
 	 * 获得用户列表
+	 * @throws UnsupportedEncodingException 
 	 * */
 	@RequestMapping("/getUserPage")
 	@ResponseBody
-	public Object getUserPage(HttpServletRequest request,@ModelAttribute("user")User user){
+	public Object getUserPage(HttpServletRequest request,@ModelAttribute("user")User user) throws UnsupportedEncodingException{
+		request.setCharacterEncoding("UTF-8");
 		Pagination pagination =new Pagination(request);
 		Map<String,Object> paraMap=new HashMap<String,Object>();
 		if(user!=null){
@@ -118,13 +122,66 @@ public class UserController{
 	}
 	
 	/**
+	 * 校验email
+	 * */
+	@RequestMapping("/checkEmail")
+	@ResponseBody
+	public Map<String,Object> checkEmail(String email){
+		Map<String,Object> outMap=new HashMap<String,Object>();
+		outMap.put("email", email);
+		User user=this.userService.getUserByMap(outMap);
+		if(user!=null){
+			outMap.put("success", false);
+			outMap.put("msg", "邮箱重复");
+		}else{
+			outMap.put("success", true);
+		}
+		return outMap;
+	}
+	
+	/**
+	 * 跳转到查看用户
+	 * */
+	@RequestMapping("/toView")
+	public String toView(String userId,ModelMap modelMap){
+		if(StringUtils.isNotEmpty(userId)){
+			User user=this.userService.getUserById(userId);
+			modelMap.put("user", user);
+		}
+		return "/module/viewUser";
+	}
+	
+	/**
 	 * 跳转到编辑用户
 	 * */
 	@RequestMapping("/toEdit")
 	public String toEdit(String userId,ModelMap modelMap){
-		User user=this.userService.getUserById(userId);
-		modelMap.put("user", user);
+		if(StringUtils.isNotEmpty(userId)){
+			User user=this.userService.getUserById(userId);
+			modelMap.put("user", user);
+			modelMap.put("type", "edit");
+		}
 		return "/module/editUser";
+	}
+	
+	/**
+	 * 删除用户
+	 * */
+	@RequestMapping("/delUser")
+	@ResponseBody
+	public Map<String,Object> delUser(String ids){
+		Map<String,Object> outMap=new HashMap<String,Object>();
+		try{
+			if(StringUtils.isNotEmpty(ids)){
+				this.userService.delUsers(Arrays.asList(ids.split(",")));
+			}
+			outMap.put("TSR_MSG", Constants.InterfacesResult.TSR_MSG_SUCCESS);
+			outMap.put("TSR_MSGCODE", Constants.InterfacesResult.TSR_MSGCODE_SUCCESS);
+		}catch(Exception e){
+			outMap.put("TSR_MSG", Constants.InterfacesResult.TSR_MSG_SYSERROR);
+			outMap.put("TSR_MSGCODE", Constants.InterfacesResult.TSR_MSGCODE_SYSERROR);
+		}
+		return outMap;
 	}
 
 }

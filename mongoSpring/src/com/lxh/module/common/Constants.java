@@ -55,7 +55,7 @@ public class Constants {
 	 * 返回客户端的接口格式
 	 * */
 	public static class Session{
-		public final static String current_user="user";
+		public final static String current_user="current_user";
 	}
 
 }

@@ -1652,7 +1652,9 @@ select:focus:invalid:focus {
 }
 
 .help-block {
-  display: block;
+  /*display: block;*/
+  color: #ff0000;
+  margin-left: 10px;
   margin-bottom: 10px;
 }
 

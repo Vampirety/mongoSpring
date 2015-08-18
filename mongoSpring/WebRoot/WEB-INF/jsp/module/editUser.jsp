@@ -7,66 +7,80 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<%@include file="/common/jsLib.jsp"%>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript">
+		$(function(){
+			//$("form").validation();
+			$("input[type='submit']").on('click',function(event){
+				if (!$("form").valid(this,"error!")){
+					return false;
+				}else{
+					//$("form").submit();
+					var btn = $(this).button('loading');
+				    setTimeout(function () {
+				        btn.button('reset');
+				    }, 3000);
+				}
+			});
+			$("form").validation(function(obj,params){
+				if (obj.name=='email'&&'${type}'!='edit'){
+					$.post("${ctx}/user/checkEmail.action?email="+$(obj).val(),{mail :$(obj).val()},function(data){
+						if(!data.success){
+							params.err = data.success;
+							params.msg = data.msg;
+						}else{
+							return;
+						}
+					});
+				}
+			});
+		});
+	</script>
 </head>
 <body>
-    <div class="content wide-content">
-        <div class="container-fluid">
-            <div class="settings-wrapper" id="pad-wrapper">
-                <div class="span7 personal-info">
-                	<div class="form-group has-success has-feedback"> 
-					  <label class="control-label" for="inputSuccess2">Input with success</label> 
-					  <input type="text" class="form-control" id="inputSuccess2"> 
-					  <span class="glyphicon glyphicon-ok form-control-feedback"></span> 
-					</div> 
-					<div class="form-group has-warning has-feedback"> 
-					  <label class="control-label" for="inputWarning2">Input with warning</label> 
-					  <input type="text" class="form-control" id="inputWarning2"> 
-					  <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span> 
-					</div> 
-					<div class="form-group has-error has-feedback"> 
-					  <label class="control-label" for="inputError2">Input with error</label> 
-					  <input type="text" class="form-control" id="inputError2"> 
-					  <span class="glyphicon glyphicon-remove form-control-feedback"></span> 
-					</div> 
-                	<!-- <form id="myForm" action="${ctx}/user/saveUser.action">
-                        <div class="field-box">
-                            <label>姓:</label>
-                            <input class="span5 inline-input" type="text" value="${user.lastName }"/>
-                        </div>
-                        <div class="field-box">
-                            <label>名:</label>
-                            <input class="span5 inline-input tooltip-show" data-toggle="tooltip" title="show" type="text" value="${user.firstName }" />
-                        </div>
-                        <div class="field-box">
-                            <label>公司:</label>
-                            <input class="span5 inline-input" type="text" value="${user.company }" />
-                        </div>
-                        <div class="field-box">
-                            <label>邮箱:</label>
-                            <input class="span5 inline-input" type="text" value="${user.email }"/>
-                        </div>
-                        <div class="field-box">
-                            <label>用户名:</label>
-                            <input class="span5 inline-input" type="text" value="${user.account }" />
-                        </div>
-                        <div class="field-box">
-                            <label>手机号码:</label>
-                            <input class="span5 inline-input" type="text" value="${user.phone }" />
-                        </div>
-                        <div class="field-box">
-                            <label>通讯地址:</label>
-                            <input class="span5 inline-input" type="text" value="${user.address }" />
-                        </div>
-                        <div class="span6 field-box actions">
-                        	<div class="pull-right">
-	                            <input type="submit" class="btn-glow primary" value="保存"/>
-	                            <input type="button" class="btn-glow primary" value="取消" onclick="parent.close_win('edit');"/>
+	<div class="content">
+		<div class="container-fluid">
+			<div id="pad-wrapper">
+				<div class="row-fluid">
+					<div class="row-fluid form-wrapper">
+						<form method="post" action="${ctx}/user/saveUser.action" >
+							<input type="hidden" name="id" value="${user.id }"/>
+							<input type="hidden" name="delFlag" value="${user.delFlag }"/>
+							<input type="hidden" name="type" value="${type }"/>
+							<div class="field-box">
+                                <label>姓<span id="autoreqmark" style="color:#FF9966"> *</span>:</label>
+                                <input class="form-control" name="lastName" value="${user.lastName }" style="width:450px" check-type="required" type="text" />
                             </div>
-                        </div>
-                    </form> -->
-                </div>
-            </div>
-        </div>
-    </div>
+                            <div class="field-box">
+                                <label>名<span id="autoreqmark" style="color:#FF9966"> *</span>:</label>
+                            	<input type="text" name="firstName" class="form-control" value="${user.firstName }" style="width:450px" check-type="required">
+                            </div>
+                            <div class="field-box">
+                                <label>昵称<span id="autoreqmark" style="color:#FF9966"> *</span>:</label>
+                                <input class="form-control" name="nickName" value="${user.nickName }" style="width:450px" check-type="required" type="text" />
+                            </div>
+                            <div class="field-box">
+                                <label>手机号码<span id="autoreqmark" style="color:#FF9966"> *</span>:</label>
+                                <input class="form-control" name="phone" value="${user.phone }" style="width:450px" check-type="mobile required" type="text" />
+                            </div>
+                            <div class="field-box">
+                                <label>邮箱<span id="autoreqmark" style="color:#FF9966"> *</span>:</label>
+                                <input class="form-control" name="email" value="${user.email }" style="width:450px" check-type="mail" type="text" />
+                            </div>
+                            <div class="field-box">
+                                <label>公司名称<span id="autoreqmark" style="color:#FF9966"> *</span>:</label>
+                                <input class="form-control" name="company" value="${user.company }" style="width:450px" type="text" />
+                            </div>
+                            <div class="buttonFloat">
+	                            <div class="span6 field-box actions">
+		                            <input type="submit" class="btn-glow primary" value="确定" />
+		                            <input type="button" class="btn-glow primary" onclick="parent.close_win('edit');" value="取消"/>
+		                        </div>
+	                        </div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

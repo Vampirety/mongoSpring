@@ -1,9 +1,11 @@
 package com.lxh.module.dao.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import com.lxh.module.base.BaseDaoImpl;
@@ -26,12 +28,15 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 		if(paraMap.containsKey("password")){
 			criteria.and("password").is(paraMap.get("password"));
 		}
+		if(paraMap.containsKey("email")){
+			criteria.and("email").is(paraMap.get("email"));
+		}
 		return this.getMongoTemplate().findOne(new Query(criteria), User.class);
 	}
 
 	@Override
 	public void saveUser(User user) {
-		this.getMongoTemplate().insert(user);
+		this.getMongoTemplate().save(user);
 	}
 
 	@Override
@@ -56,6 +61,11 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 	@Override
 	public User getUserById(String userId) {
 		return this.getMongoTemplate().findById(userId, User.class);
+	}
+	
+	public void delUsers(List<String> userIds){
+		Criteria criteria=Criteria.where("id").in(userIds);
+		this.getMongoTemplate().updateMulti(new Query(criteria), new Update().set("delFlag", "1"), User.class);
 	}
 
 }

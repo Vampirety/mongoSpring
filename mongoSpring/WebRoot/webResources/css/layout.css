@@ -505,6 +505,9 @@ input.search{
 	background:#ffe;
 	border-radius:10px;
 }
+.buttonFloat{
+	float:right;
+}
 
 
 /* responsive */

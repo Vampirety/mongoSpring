@@ -36,4 +36,5 @@
     <script src="${ctx }/webResources/js/theme.js"></script>
     <script src="${ctx }/webResources/js/bootstrap-paginator.js"></script>
     <script src="${ctx }/webResources/js/bootbox.js"></script>
+    <script src="${ctx }/webResources/js/bootstrap3-validation.js"></script>
     <script src="${ctx }/webResources/js/common.js"></script>

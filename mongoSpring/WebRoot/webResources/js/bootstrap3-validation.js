@@ -24,7 +24,8 @@
  *         params.err = !data.success;
  *         params.msg = data.msg;
  *       });
- *     }},
+ *     }
+ *     },
  *     {reqmark:false,icon:true}
  *   );
  *  其中： reqmark = true 表示显示*号
@@ -60,7 +61,6 @@
  * ========================================================= */
 !function($) {
     $.fn.validation = function(callback,options) {
-      
         if ( !this.length ) {
             if ( options && options.debug && window.console ) {
                 console.warn( "Nothing selected, can't validate, returning nothing." );
@@ -79,7 +79,7 @@
             // Add novalidate tag if HTML5.
             $(this).attr( "novalidate", "novalidate" );
             fform_style = isformstyle(this);
-            validationForm(this)
+            validationForm(this);
         });
     };
 
@@ -152,10 +152,10 @@
             };
             if(hadgroup)
             {
-              myobject.parent().before('<span id="validerrmsg" class="help-block" style="color: #FF0000;"><div class="alert alert-warning" role="alert" style="padding:10px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+myoptions+'</div></span>');
+              //myobject.parent().before('<span id="validerrmsg" class="help-block" style="color: #FF0000;"><div class="alert alert-warning" role="alert" style="padding:10px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+myoptions+'</div></span>');
             }
             else {
-              myobject.before('<span id="validerrmsg" class="help-block" style="color: #FF0000;"><div class="alert alert-warning" role="alert" style="padding:10px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+myoptions+'</div></span>');
+              //myobject.before('<span id="validerrmsg" class="help-block" style="color: #FF0000;"><div class="alert alert-warning" role="alert" style="padding:10px;"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+myoptions+'</div></span>');
             };
         };
         //end
@@ -163,7 +163,7 @@
         if(mycb){mycb(validationError);}
 
         return !validationError;        
-    }
+    };
 
    $.fn.validation.defaults = {
         validRules : [
@@ -174,7 +174,7 @@
             {name: 'mail', validate: function(value) {return (!/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$/i.test(value));}, defaultMsg: '请输入邮箱地址。'},
             {name: 'char', validate: function(value) {return (!/^[a-z\_\-A-Z]*$/.test(value));}, defaultMsg: '请输入英文字符。'},
             {name: 'chinese', validate: function(value) {return (!/^[\\S\\s]*[\u4e00-\u9fff]+[\\S\\s]*$/.test(value));}, defaultMsg: '请输入汉字。'},
-            {name: 'url',validate:function(value){return(!/^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value))},defaultMsg:'请输入网址'},
+            {name: 'url',validate:function(value){return(!/^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value));},defaultMsg:'请输入网址'},
             {name: 'date',validate:function(value){return(/Invalid|NaN/.test(new Date(value).toString()));},defaultMsg:"日期格式XXXX-XX-XX。"},
             {name: 'mobile', validate: function(value) {return (!/^0?(13[0-9]|15[0-9]|17[0678]|18[0-9]|14[57])[0-9]{8}$/.test(value));}, defaultMsg: '请输入正确的手机号。'}
         ],
@@ -202,12 +202,12 @@
     };
 
     //验证字段
-    var validateField = function(field, valid) { 
+    var validateField = function(field, valid) {
         var el = $(field), error = false, errorMsg = '';
         var minlength=(el.attr('minlength')?el.attr('minlength'):null);
         var range=(el.attr('range')?el.attr('range'):null); //
         var msg;
-        for (i = 0; i < valid.length; i++) {
+        for (var i = 0; i < valid.length; i++) {
             var x = true, 
                 flag = valid[i];
             msg = (el.attr(flag + '-message')==undefined)?null:el.attr(flag + '-message');
@@ -218,7 +218,7 @@
             }
 
             var rules = globalOptions.validRules;
-            for (j = 0; j < rules.length; j++) {
+            for (var j = 0; j < rules.length; j++) {
                 var rule = rules[j];
                 if (flag == rule.name) {
                     var value;
@@ -282,7 +282,7 @@
             var b = $.ajaxSettings.async;
             $.ajaxSetup({async : false});
             globalOptions.callback(field,params); 
-            error = params.err;   
+            error = params.err;  
             if (error && (msg==null || errorMsg=='')){
                 errorMsg = params.msg;
             }
@@ -293,7 +293,8 @@
         };
 
 
-        var controlGroup = el.parents('.form-group');
+        //var controlGroup = el.parents('.form-group');
+        var controlGroup = el.parents('.form-wrapper');
         controlGroup.removeClass('has-error has-success');
         
         controlGroup.addClass(error==false?'has-success':'has-error');
@@ -308,7 +309,10 @@
             var fstyle = isformstyle(form); //0=表示基本表单 1=表示内联表单 2=水平排列的表单
             var iconname = error==false?'glyphicon-ok':'glyphicon-remove';
             if(fstyle == 0){
-                controlGroup.find("#valierr").remove();
+//              controlGroup.find("#valierr").remove();
+//            	console.info(el);
+//            	el.find("#valierr").remove();
+            	el.siblings("#valierr").remove();
                 el.after('<span class="help-block" id="valierr">' + errorMsg +'</span>');
                 if (globalOptions.icon===true ){
                   if (el.find('option').length==0){
@@ -331,7 +335,8 @@
               }
             }
             else if (fstyle == 2){
-                controlGroup.find("#valierr").remove();
+                //controlGroup.find("#valierr").remove();
+            	el.siblings("#valierr").remove();
                 el.parent().after('<span class="help-block" id="valierr">' + errorMsg +'</span>');
                 if (globalOptions.icon===true ){
                   if (el.find('option').length==0){
@@ -342,6 +347,7 @@
                   }
                 }
              }
+            $(function () { $("[data-toggle='tooltip']").tooltip(); });
         };//end !form
         return !error;
     };
@@ -374,12 +380,12 @@
         //3.设置必填的标志*号
         if (globalOptions.reqmark==true){
             if(fform_style==0){
-                $(obj).find(".form-group>label").each(function(){
+                $(obj).find(".form-wrapper>label").each(function(){
                     var el=$(this);
-                    var controlGroup = el.parents('.form-group');
+                    var controlGroup = el.parents('.field-box');
                     controlGroup.removeClass('has-error has-success');
                     controlGroup.find("#autoreqmark").remove();
-                    el.after('<span id="autoreqmark" style="color:#FF9966"> *</span>')
+                    el.after('<span id="autoreqmark" style="color:#FF9966"> *</span>');
                 });
             }
             else if(fform_style==1){

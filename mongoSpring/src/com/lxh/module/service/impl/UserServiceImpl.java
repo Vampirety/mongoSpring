@@ -1,5 +1,6 @@
 package com.lxh.module.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -36,5 +37,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(String userId) {
 		return userDao.getUserById(userId);
+	}
+
+	@Override
+	public void delUsers(List<String> userIds) {
+		userDao.delUsers(userIds);
 	}
 }

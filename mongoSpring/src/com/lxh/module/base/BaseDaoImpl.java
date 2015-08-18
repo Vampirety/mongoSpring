@@ -27,7 +27,7 @@ public class BaseDaoImpl {
 		try{
 			List<?> data = this.getMongoTemplate().find(new Query().addCriteria(criteria).skip(pagination.getFirstResult())
 					.limit(pagination.getPageSize()), clazz);
-			pagination.setTotalCount((int) this.getMongoTemplate().count(null, clazz));
+			pagination.setTotalCount((int) this.getMongoTemplate().count(new Query().addCriteria(criteria), clazz));
 			pagination.setList(data);
 		}catch(Exception e){
 			throw new BasalException(BasalException.ERROR, "≤È—Ø∑÷“≥¥ÌŒÛ");

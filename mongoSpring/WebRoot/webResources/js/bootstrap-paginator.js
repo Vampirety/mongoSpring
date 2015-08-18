@@ -264,12 +264,17 @@
             	
             	//---------
             	format(data,options);
-    			ele.totalPages=(data.totalCount%data.pageSize+1);
+            	
     			//alert("totalPages1:"+ele.totalPages);
     			ele.numberOfPages=data.pageSize;
     			//alert("numberOfPages:"+this.numberOfPages);
     			ele.currentPage=data.pageNumber;
     			//alert("currentPage:"+this.currentPage);
+    			if(data.totalCount>data.pageSize){
+            		ele.totalPages=(data.totalCount/data.pageSize+1);
+            	}else{
+            		ele.totalPages=1;
+            	}
     			var totalPages = ele.totalPages,// get or calculate the total pages via the total records
                 
                 pageStart = (ele.currentPage % ele.numberOfPages === 0) ? (parseInt(ele.currentPage / ele.numberOfPages, 10) - 1) * ele.numberOfPages + 1 : parseInt(ele.currentPage / ele.numberOfPages, 10) * ele.numberOfPages + 1,//calculates the start page.
@@ -749,7 +754,7 @@ function selectAll(){
 function getSelected(){
 	var ids="";
 	$.each($("input[name='checkbox']"),function(i,n){
-		if(n.value){
+		if(n.value&&$(n).prop("checked")){
 			ids+=n.value+",";
 		}
 	});

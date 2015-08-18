@@ -12,8 +12,8 @@
     <div id="pad-wrapper">
          <div class="table-products section">
              <div class="row-fluid filter-block">
-             	 <a class="btn-flat danger"><i class="icon-remove"></i>批量删除</a>
-             	 <a class="btn-flat "><i class="icon-plus"></i>新增用户</a>
+             	 <a class="btn-flat danger" onclick="delAll();"><i class="icon-remove"></i>批量删除</a>
+             	 <a class="btn-flat" onclick="add();"><i class="icon-plus"></i>新增用户</a>
                  <div class="pull-right">
                      <div class="ui-select">
                          <select>
@@ -53,25 +53,52 @@
 				{field:'phone',title:'手机号码',width:0.1},
 				{field:'op',title:'操作',width:0.2,formatter:function(rec){
 					return "<ul class='actions'><li><i class='icon-pencil' onclick='edit(\""+rec.id+"\");'></i></li>"//编辑
-                        +'<li><i class="icon-eye-open"></i></li>'//设置
-                        +'<li class="last"><i class="icon-remove" onclick="del();"></i></li></ul>';//删除					
+                        +"<li><i class='icon-eye-open' onclick='view(\""+rec.id+"\");'></i></li>"//查看
+                        +"<li class='last'><i class='icon-remove' onclick='del(\""+rec.id+"\");'></i></li></ul>";//删除					
 				}}
      		]
      	};
      	$('#pagination').bootstrapPaginator(options);
      	function edit(id){
-     		createSimpleWindow("edit","新增用户","${ctx}/user/toEdit.action?userId="+id, 600, 500);
+     		createSimpleWindow("edit","编辑用户","${ctx}/user/toEdit.action?userId="+id, 600, 500);
      	}
-     	function del(){
+     	function add(){
+     		createSimpleWindow("edit","新增用户","${ctx}/user/toEdit.action", 600, 500);
+     	}
+     	function view(id){
+     		createSimpleWindow("view","查看用户","${ctx}/user/toView.action?userId="+id, 600, 550);
+     	}
+     	function del(id){
      		//bootbox.alert("确定要删除吗？");
      		bootbox.setLocale("zh_CN");  
      		bootbox.confirm({ 
      		    size: 'small',
      		    message: "确定要删除吗？", 
      		    callback: function(result){
-     		    	
+     		    	if(result){
+     		    		$.ajax({
+         		    		url:"${ctx}/user/delUser.action",
+         		    		data:{"ids":id},
+         		    		dataType:"json",
+         		    		type:"post",
+         		    		success:function(data){
+         		    			history.go(0);
+         		    		},
+         		    		error:function(data){
+         		    			alert("删除失败！");
+         		    		}
+         		    	});
+     		    	}
      		    }
      		});
+     	}
+     	function delAll(){
+     		var ids=getSelected();
+     		if(ids){
+     			del(ids);
+     		}else{
+     			bootbox.alert("请先选择要删除的项目");
+     		}
      	}
      </script>
   </body>

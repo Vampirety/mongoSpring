@@ -1,5 +1,6 @@
 package com.lxh.module.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.lxh.module.base.Pagination;
@@ -14,5 +15,7 @@ public interface UserService {
 	Pagination getUserPage(Pagination pagination, Map<String, Object> paraMap);
 
 	User getUserById(String userId);
+
+	void delUsers(List<String> asList);
 
 }

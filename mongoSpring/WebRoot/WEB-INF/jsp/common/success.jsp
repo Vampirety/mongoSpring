@@ -8,7 +8,8 @@
     </head>
     <script type="text/javascript">
     	$(function(){
-    		parent.window.resizeTo(500, 200);
+    		var windowId='${windowId}';
+    		$(parent.document.getElementById(windowId)).modal('hide');
     	});
     </script>
     <body>  
